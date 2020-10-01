@@ -972,9 +972,9 @@ extern "C" void draw_detections_cv_v3(mat_cv* mat, detection *dets, int num, flo
                 if ((right - left) < text_size.width) pt_text_bg2.x = left + text_size.width;
                 pt_text_bg2.y = top;
                 cv::Scalar color;
-                color.val[0] = red * 256;
+                color.val[2] = red * 256;
                 color.val[1] = green * 256;
-                color.val[2] = blue * 256;
+                color.val[0] = blue * 256;
 
                 // you should create directory: result_img
                 //static int copied_frame_id = -1;
