@@ -79,7 +79,7 @@ def inference(darknet_image_queue, detections_queue, fps_queue):
         darknet_image = darknet_image_queue.get()
         prev_time = time.time()
         detections = darknet.detect_image(network, class_names, darknet_image, thresh=args.thresh)
-        filter_det(detections)
+        detections = filter_det(detections)
         detections_queue.put(detections)
         fps = int(1/(time.time() - prev_time))
         fps_queue.put(fps)
@@ -92,7 +92,7 @@ def inference(darknet_image_queue, detections_queue, fps_queue):
 def filter_det(detections):
     print(f'det in: {detections}') 
     if not detections or len(detections) < 2:
-        return
+        return detections
 
     improper = False
     improper_id = -1
@@ -109,6 +109,7 @@ def filter_det(detections):
         detections = [i for j, i in enumerate(detections) if j != improper_id]
 
     print(f'det out: {detections}')
+    return detections
 
 
 def drawing(frame_queue, detections_queue, fps_queue):
